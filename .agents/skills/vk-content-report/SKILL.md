@@ -5,7 +5,7 @@ description: Use when confirmed weekly VK competitor-post results must be conver
 
 # Маршрут
 
-Обязательный итог этапа — самостоятельный проверенный файл `outputs/vk_content_report.html`. Финальный ответ должен содержать этот HTML-файл или ссылку на него. Краткое резюме в чате и PDF для проверки печати не заменяют HTML.
+Обязательный итог этапа — самостоятельный проверенный файл `outputs/vk_content_report.html`. Прикрепить сам HTML-файл к финальному ответу. Ссылка, путь к файлу, краткое резюме в чате и PDF для проверки печати не заменяют вложение.
 
 1. Получить только подтверждённые выходы `$analyze-vk-best-posts`: `vk_posts_dataset.json`, JSON комментариев, `vk_best_posts.xlsx`, `final_validation.json`, изображения и расшифровки клипов. Брать пути из `posts_handoff.json`, если он есть.
 2. Выполнить `prepare` один раз. Остановиться при неверном статусе, хэше, множестве `post_id`, ER, бенчмарке, ссылке, XLSX, медиапути или расшифровке клипа. Требовать, чтобы множество прямых ссылок на посты в XLSX совпало с dataset.
@@ -13,7 +13,7 @@ description: Use when confirmed weekly VK competitor-post results must be conver
 4. Прочитать `outputs/analysis_input.json` и `outputs/comment-signals.json`. Проанализировать все проверенные посты, а не только `is_best`.
 5. Создать `findings.json` строго по `references/analysis-contract.md` и `references/report-structure.md`.
 6. Выполнить `build`, затем `validate`. Показать пользователю HTML и краткий итог. Попросить явно подтвердить результат.
-7. Только после явного подтверждения выполнить `confirm`, повторить `validate`, создать `report_handoff.json` и обновить `chain_manifest.json`.
+7. Только после явного подтверждения выполнить `confirm`, повторить `validate`, создать `report_handoff.json` и обновить `chain_manifest.json`. Прикрепить проверенный `outputs/vk_content_report.html` к финальному ответу.
 
 # Правила анализа
 
@@ -64,4 +64,4 @@ description: Use when confirmed weekly VK competitor-post results must be conver
 - Блокировать неизвестные `post_id`, неверные прямые ссылки, пустые доказательства, неподтверждённые цитаты и причинные выводы.
 - Блокировать HTML, если число аналитических буллитов не равно числу вложенных блоков `Пост-пример`, если внутри хотя бы одного буллита нет ссылки или если ссылка находится вне буллита.
 - Не выполнять `confirm` без явного подтверждения пользователя.
-- Не считать этап завершённым, если `outputs/vk_content_report.html` отсутствует, не прошёл `validate` или не был передан пользователю как файл либо ссылка.
+- Не считать этап завершённым, если `outputs/vk_content_report.html` отсутствует, не прошёл `validate` или не был прикреплён к финальному ответу как файл.

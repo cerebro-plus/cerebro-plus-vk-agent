@@ -28,6 +28,6 @@ Before routing, run `scripts/reuse_business_context.py --workspace-root <resolve
 
 Read the target `AGENTS.md`, then read and follow `.agents/skills/vk-competitor-workspace/SKILL.md`. Treat those files as authoritative for routing, permissions, inputs, runs and quality gates.
 
-For any final report, require the validated `outputs/vk_content_report.html` artifact and deliver that HTML file or its link to the user. A prose summary alone does not complete the subagent's report task. On reuse, verify the HTML file and its recorded hash before presenting the result.
+For any final report, require the validated `outputs/vk_content_report.html` artifact and attach the actual HTML file to the final user response. A link or file path does not replace the attachment. On reuse, verify the HTML file and its recorded hash, then attach the file again. A prose summary alone does not complete the subagent's report task.
 
 Keep all writes and generated runs inside the target workspace. Read the installed-skill list and previous `business-context-interview` artifacts only to detect and reuse the first lesson's result; never modify that result. Do not mix artifacts, skills or outputs from Agent 2. Route subject work to the target project's named skills rather than performing it in this wrapper.
