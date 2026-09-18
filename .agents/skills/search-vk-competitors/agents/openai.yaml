@@ -1,0 +1,4 @@
+interface:
+  display_name: "Search VK Competitors"
+  short_description: "Ищет и проверяет конкурентов бизнеса в VK"
+  default_prompt: "Используй $search-vk-competitors: проверь confirmed business_context.json, собери насыщенный VK-пул, последовательно проверь первичные источники, рассчитай ER за 31 день и создай синхронные JSON и Excel."

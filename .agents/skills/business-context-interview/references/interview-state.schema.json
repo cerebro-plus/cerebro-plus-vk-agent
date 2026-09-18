@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interview-state.schema.json",
+  "title": "Business interview state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "phase",
+    "created_at",
+    "updated_at",
+    "source_review_sha256",
+    "business_question_limit",
+    "business_questions_asked",
+    "competitor_questions_asked",
+    "clarification_questions_asked",
+    "awaiting_answer",
+    "resolved_topics",
+    "questions",
+    "business",
+    "competitors",
+    "security"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "status": {
+      "enum": [
+        "active",
+        "complete"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "business",
+        "competitors",
+        "complete"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "source_review_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "business_question_limit": {
+      "const": 15
+    },
+    "business_questions_asked": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 15
+    },
+    "competitor_questions_asked": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "clarification_questions_asked": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "awaiting_answer": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "resolved_topics": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "number",
+          "phase",
+          "topic",
+          "question",
+          "normalized_question",
+          "clarification_of",
+          "answered",
+          "answer_summary",
+          "quality",
+          "needs_clarification"
+        ],
+        "properties": {
+          "number": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "phase": {
+            "enum": [
+              "business",
+              "competitors"
+            ]
+          },
+          "topic": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "normalized_question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clarification_of": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "answered": {
+            "type": "boolean"
+          },
+          "answer_summary": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "quality": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "complete",
+              "general",
+              "incomplete",
+              "contradictory",
+              null
+            ]
+          },
+          "needs_clarification": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "business": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closed",
+        "remaining_gaps",
+        "additional_round_offered",
+        "additional_round_requested"
+      ],
+      "properties": {
+        "closed": {
+          "type": "boolean"
+        },
+        "remaining_gaps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additional_round_offered": {
+          "type": "boolean"
+        },
+        "additional_round_requested": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "competitors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closed"
+      ],
+      "properties": {
+        "closed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contains_secrets"
+      ],
+      "properties": {
+        "contains_secrets": {
+          "const": false
+        }
+      }
+    }
+  }
+}

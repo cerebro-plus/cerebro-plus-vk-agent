@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "stages": {
+    "business-context-interview": {
+      "model": "gpt-5.6-terra",
+      "effort": "medium"
+    },
+    "search-vk-competitors": {
+      "model": "gpt-5.6-sol",
+      "effort": "medium"
+    },
+    "analyze-vk-best-posts": {
+      "model": "gpt-5.6-terra",
+      "effort": "medium"
+    },
+    "vk-content-report": {
+      "first_complex": {
+        "model": "gpt-5.6-sol",
+        "effort": "high"
+      },
+      "regular": {
+        "model": "gpt-5.6-sol",
+        "effort": "medium"
+      }
+    }
+  }
+}

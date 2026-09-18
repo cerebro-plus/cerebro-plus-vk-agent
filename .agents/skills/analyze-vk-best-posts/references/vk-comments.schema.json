@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "vk-comments.schema.json",
+  "title": "VK comments keyed by string post_id",
+  "type": "object",
+  "patternProperties": {
+    "^-?\\d+_\\d+$": {
+      "type": "object",
+      "required": [
+        "post_id",
+        "post_url",
+        "api_post_comment_count",
+        "top_level_comments",
+        "audit"
+      ],
+      "properties": {
+        "post_id": {"type": "string", "pattern": "^-?\\d+_\\d+$"},
+        "post_url": {"type": "string", "format": "uri"},
+        "api_post_comment_count": {"type": "integer", "minimum": 0},
+        "top_level_comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["comment_id", "from_id", "text", "likes", "replies"],
+            "properties": {
+              "comment_id": {"type": "string"},
+              "from_id": {"type": "string"},
+              "date": {"type": ["string", "null"], "format": "date-time"},
+              "text": {"type": "string"},
+              "likes": {"type": "integer", "minimum": 0},
+              "deleted": {"type": "boolean"},
+              "replies": {"type": "array"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "audit": {"type": "object"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

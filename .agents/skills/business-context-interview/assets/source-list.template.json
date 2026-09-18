@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "label": "Основное VK-сообщество",
+      "url": "https://vk.com/your-community"
+    },
+    {
+      "label": "Официальный сайт",
+      "url": "https://example.com"
+    }
+  ]
+}

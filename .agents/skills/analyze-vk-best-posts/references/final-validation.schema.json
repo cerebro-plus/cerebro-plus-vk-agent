@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "final-validation.schema.json",
+  "title": "Best-posts downstream validation receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "passed",
+    "issues",
+    "status",
+    "source",
+    "counts",
+    "hashes",
+    "secret_scan"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "passed": {"type": "boolean"},
+    "issues": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["draft", "confirmed"]},
+    "confirmed_at": {"type": ["string", "null"], "format": "date-time"},
+    "confirmation_date": {"type": ["string", "null"], "format": "date"},
+    "source": {
+      "type": "object",
+      "required": ["competitor_set_sha256", "competitor_set_status"],
+      "properties": {
+        "competitor_set_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "competitor_set_status": {"const": "confirmed"}
+      },
+      "additionalProperties": false
+    },
+    "counts": {"type": "object"},
+    "hashes": {
+      "type": "object",
+      "required": [
+        "dataset",
+        "comments",
+        "xlsx",
+        "media_summary",
+        "workbook_validation",
+        "run_passport"
+      ],
+      "properties": {
+        "dataset": {"$ref": "#/$defs/sha256"},
+        "comments": {"$ref": "#/$defs/sha256"},
+        "xlsx": {"$ref": "#/$defs/sha256"},
+        "media_summary": {"$ref": "#/$defs/sha256"},
+        "workbook_validation": {"$ref": "#/$defs/sha256"},
+        "run_passport": {"$ref": "#/$defs/sha256"}
+      },
+      "additionalProperties": false
+    },
+    "secret_scan": {
+      "type": "object",
+      "required": ["passed", "hits"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "hits": {"type": "array"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "additionalProperties": false
+}

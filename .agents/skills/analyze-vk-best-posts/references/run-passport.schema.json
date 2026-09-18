@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "run-passport.schema.json",
+  "title": "Weekly VK post run passport",
+  "type": "object",
+  "required": [
+    "status",
+    "run_started_at",
+    "window",
+    "source",
+    "api_audit",
+    "pagination",
+    "media_gate",
+    "hashes"
+  ],
+  "properties": {
+    "status": {"enum": ["draft", "confirmed"]},
+    "confirmed_at": {"type": ["string", "null"], "format": "date-time"},
+    "confirmation_date": {"type": ["string", "null"], "format": "date"},
+    "run_started_at": {"type": "string", "format": "date-time"},
+    "window": {
+      "type": "object",
+      "required": ["start", "end", "duration_hours"],
+      "properties": {
+        "start": {"type": "string", "format": "date-time"},
+        "end": {"type": "string", "format": "date-time"},
+        "duration_hours": {"const": 168},
+        "inclusion": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "competitor_set_sha256",
+        "competitor_set_status",
+        "competitor_count",
+        "new_competitor_search_performed"
+      ],
+      "properties": {
+        "competitor_set_path": {"type": "string"},
+        "competitor_set_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "competitor_set_status": {"const": "confirmed"},
+        "competitor_count": {"type": "integer", "minimum": 1},
+        "new_competitor_search_performed": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "api_audit": {"type": "object"},
+    "pagination": {"type": "object"},
+    "media_gate": {"type": ["object", "null"]},
+    "hashes": {
+      "type": "object",
+      "required": [
+        "vk_posts_dataset.json",
+        "vk_comments.json",
+        "media_summary_anonymized.json",
+        "vk_best_posts.xlsx",
+        "workbook_validation.json"
+      ],
+      "properties": {
+        "vk_posts_dataset.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "vk_comments.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "media_summary_anonymized.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "vk_best_posts.xlsx": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "workbook_validation.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

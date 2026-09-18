@@ -1,0 +1,7 @@
+interface:
+  display_name: "Agent VK"
+  short_description: "Запуск рабочего пространства VK-аналитики"
+  default_prompt: "Use $agent-vk to route this task through the VK competitor-analysis workspace."
+
+policy:
+  allow_implicit_invocation: true

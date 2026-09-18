@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.1",
+  "generated_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "batch_index": 1,
+  "processed_batches": [1],
+  "candidates": [
+    {
+      "community_id": 1,
+      "decision": "include",
+      "competitor_type": "direct",
+      "geography_match": true,
+      "geography": "Подтверждённая география",
+      "site": "https://example.com",
+      "assortment": "Подтверждённый ассортимент",
+      "audience": "Подтверждённая аудитория",
+      "price_segment": "not_established",
+      "sales_model": "Подтверждённая модель продаж",
+      "production": "not_established",
+      "online_offline": "Подтверждённый формат",
+      "reason": "Конкретное основание решения",
+      "exclusion_code": null,
+      "classification_evidence": {
+        "same_primary_product": true,
+        "same_audience": true,
+        "same_specialization": true,
+        "primary_offer_coverage_ratio": 0.75,
+        "partial_or_similar_assortment": true,
+        "similar_need": true,
+        "substitute_or_complement": true
+      },
+      "key_feature_check": {
+        "policy_applies": true,
+        "matches": true,
+        "matched": ["Подтверждённая особенность"],
+        "missing": [],
+        "rationale": "Основание по первичному источнику"
+      },
+      "constraint_check": {
+        "matched_required_inclusion": false,
+        "matched_exclusions": []
+      },
+      "source_checks": [
+        {
+          "url": "https://vk.com/example",
+          "kind": "official_vk",
+          "official": true,
+          "checked_at": "YYYY-MM-DDTHH:MM:SSZ",
+          "supports": [
+            "assortment",
+            "audience",
+            "geography",
+            "price",
+            "sales",
+            "production",
+            "online_offline"
+          ]
+        }
+      ],
+      "priority_score": 0
+    }
+  ]
+}

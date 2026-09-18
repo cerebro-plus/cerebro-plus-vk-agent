@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "media-summary.schema.json",
+  "title": "Anonymized media summary",
+  "type": "object",
+  "required": [
+    "status",
+    "window_hours",
+    "post_count",
+    "best_post_count",
+    "post_types",
+    "images",
+    "clips",
+    "anonymization"
+  ],
+  "properties": {
+    "status": {"enum": ["draft", "confirmed"]},
+    "confirmed_at": {"type": ["string", "null"], "format": "date-time"},
+    "window_hours": {"const": 168},
+    "post_count": {"type": "integer", "minimum": 0},
+    "best_post_count": {"type": "integer", "minimum": 0},
+    "post_types": {"type": "object"},
+    "images": {
+      "type": "object",
+      "required": ["expected", "downloaded", "collages"],
+      "properties": {
+        "expected": {"type": "integer", "minimum": 0},
+        "downloaded": {"type": "integer", "minimum": 0},
+        "collages": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "clips": {
+      "type": "object",
+      "required": ["confirmed", "downloaded", "transcriptions"],
+      "properties": {
+        "confirmed": {"type": "integer", "minimum": 0},
+        "downloaded": {"type": "integer", "minimum": 0},
+        "transcriptions": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "anonymization": {
+      "type": "object",
+      "required": [
+        "community_names",
+        "community_ids",
+        "post_ids",
+        "urls",
+        "media_paths"
+      ],
+      "properties": {
+        "community_names": {"const": false},
+        "community_ids": {"const": false},
+        "post_ids": {"const": false},
+        "urls": {"const": false},
+        "media_paths": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "VK Competitor Workspace"
+  short_description: "Маршрутизация рабочего пространства анализа VK"
+  default_prompt: "Используй $vk-competitor-workspace, чтобы определить следующий безопасный этап анализа VK-конкурентов и переиспользовать валидные результаты."

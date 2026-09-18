@@ -1,0 +1,4 @@
+interface:
+  display_name: "Анализ лучших постов VK"
+  short_description: "Недельный аудит лучших постов конкурентов VK"
+  default_prompt: "Используй $analyze-vk-best-posts для сбора недельных постов заданных VK-конкурентов, расчёта ER и создания проверенных XLSX/JSON."

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "competitor-set.schema.json",
+  "title": "Confirmed VK competitor set input",
+  "type": "object",
+  "required": ["schema_version", "status", "competitors"],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "status": {"const": "confirmed"},
+    "confirmed_at": {"type": ["string", "null"], "format": "date-time"},
+    "competitors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "community_id",
+          "name",
+          "vk",
+          "competitor_type",
+          "followers"
+        ],
+        "properties": {
+          "community_id": {"type": "integer", "minimum": 1},
+          "name": {"type": "string", "minLength": 1},
+          "vk": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://(www\\.)?(m\\.)?vk\\.(com|ru)/"
+          },
+          "site": {"type": ["string", "null"], "format": "uri"},
+          "competitor_type": {
+            "enum": ["Прямой", "Косвенный", "За внимание"]
+          },
+          "followers": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

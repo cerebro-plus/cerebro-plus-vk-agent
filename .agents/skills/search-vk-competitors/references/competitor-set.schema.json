@@ -1,0 +1,541 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "competitor-set.schema.json",
+  "title": "Verified VK competitor set",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "generated_at",
+    "confirmation_date",
+    "provenance",
+    "window",
+    "criteria",
+    "classification_summary",
+    "competitors",
+    "posts_in_window",
+    "er_exclusions",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.1"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "confirmed"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "confirmation_date": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "confirmed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "window": {
+      "$ref": "#/$defs/window"
+    },
+    "criteria": {
+      "$ref": "#/$defs/criteria"
+    },
+    "classification_summary": {
+      "type": "object",
+      "properties": {
+        "direct": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "indirect": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "attention": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/competitor"
+      }
+    },
+    "posts_in_window": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/post"
+      }
+    },
+    "er_exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["community_id", "owner_id", "post_id", "reason"],
+        "properties": {
+          "community_id": {"type": "integer", "minimum": 1},
+          "owner_id": {"type": "integer", "maximum": -1},
+          "post_id": {"type": "integer", "minimum": 1},
+          "reason": {
+            "enum": ["missing_views", "zero_views", "invalid_views"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "target_met",
+        "conditions_relaxed",
+        "all_have_vk",
+        "secret_included"
+      ],
+      "properties": {
+        "target_met": {
+          "type": "boolean"
+        },
+        "conditions_relaxed": {
+          "const": false
+        },
+        "all_have_vk": {
+          "type": "boolean"
+        },
+        "secret_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "provenance": {
+      "type": "object",
+      "required": [
+        "business_context_file",
+        "business_context_sha256",
+        "raw_candidates_file",
+        "raw_candidates_sha256",
+        "measured_candidates_file",
+        "measured_candidates_sha256",
+        "candidate_reviews_file",
+        "candidate_reviews_sha256"
+      ],
+      "properties": {
+        "business_context_file": {
+          "const": "business_context.json"
+        },
+        "business_context_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "raw_candidates_file": {
+          "const": "raw_candidates.json"
+        },
+        "raw_candidates_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "measured_candidates_file": {
+          "const": "measured_candidates.json"
+        },
+        "measured_candidates_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "candidate_reviews_file": {
+          "const": "candidate_reviews.json"
+        },
+        "candidate_reviews_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "window": {
+      "type": "object",
+      "required": [
+        "timezone",
+        "start",
+        "end",
+        "duration_hours",
+        "inclusive"
+      ],
+      "properties": {
+        "timezone": {
+          "const": "UTC"
+        },
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration_hours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "inclusive": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "criteria": {
+      "type": "object",
+      "required": [
+        "target_count",
+        "actual_count",
+        "followers_min",
+        "followers_max",
+        "followers_inclusive",
+        "primary_city",
+        "activity_freshness_hours",
+        "metric_window_hours",
+        "required_inclusions",
+        "exclusions",
+        "key_features",
+        "matching_policy",
+        "vk_required"
+      ],
+      "properties": {
+        "target_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "actual_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "followers_min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "followers_max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "followers_inclusive": {
+          "type": "boolean"
+        },
+        "primary_city": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geography_rule": {},
+        "activity_freshness_hours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "metric_window_hours": {
+          "const": 744
+        },
+        "required_inclusions": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "exclusions": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "key_features": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "matching_policy": {
+          "type": "object"
+        },
+        "vk_required": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "competitor": {
+      "type": "object",
+      "required": [
+        "community_id",
+        "name",
+        "vk",
+        "site",
+        "competitor_type",
+        "competitor_type_code",
+        "followers",
+        "last_own_publication_at",
+        "last_own_publication_url",
+        "posts_in_window_count",
+        "measurable_er_post_count",
+        "er_excluded_post_count",
+        "average_er",
+        "assortment",
+        "audience",
+        "geography",
+        "price_segment",
+        "sales_model",
+        "production",
+        "online_offline",
+        "why_competitor",
+        "key_feature_check",
+        "classification_evidence",
+        "required_inclusion",
+        "rank_score",
+        "verified_sources",
+        "source_checks"
+      ],
+      "properties": {
+        "community_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vk": {
+          "type": "string",
+          "pattern": "^https://vk\\.com/"
+        },
+        "site": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "competitor_type": {
+          "enum": [
+            "Прямой",
+            "Косвенный",
+            "За внимание"
+          ]
+        },
+        "competitor_type_code": {
+          "enum": ["direct", "indirect", "attention"]
+        },
+        "followers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_own_publication_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_own_publication_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "posts_in_window_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "measurable_er_post_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "er_excluded_post_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "average_er": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "assortment": {
+          "type": "string"
+        },
+        "audience": {
+          "type": "string"
+        },
+        "geography": {
+          "type": "string"
+        },
+        "price_segment": {
+          "type": "string"
+        },
+        "sales_model": {
+          "type": "string"
+        },
+        "production": {
+          "type": "string"
+        },
+        "online_offline": {
+          "type": "string"
+        },
+        "why_competitor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key_feature_check": {
+          "type": "object"
+        },
+        "classification_evidence": {
+          "type": "object"
+        },
+        "required_inclusion": {
+          "type": "boolean"
+        },
+        "rank_score": {
+          "type": ["number", "null"]
+        },
+        "verified_sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "source_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["url", "kind", "official", "checked_at", "supports"],
+            "properties": {
+              "url": {"type": "string", "format": "uri"},
+              "kind": {
+                "enum": ["official_vk", "official_website", "primary_other"]
+              },
+              "official": {"const": true},
+              "checked_at": {"type": "string", "format": "date-time"},
+              "supports": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "post": {
+      "type": "object",
+      "required": [
+        "community_id",
+        "owner_id",
+        "post_id",
+        "published_at",
+        "likes",
+        "comments",
+        "reposts",
+        "views",
+        "interactions",
+        "er",
+        "er_exclusion_reason",
+        "is_pinned",
+        "has_copy_history",
+        "text",
+        "url",
+        "community_name",
+        "competitor_type",
+        "competitor_type_code"
+      ],
+      "properties": {
+        "community_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "owner_id": {
+          "type": "integer",
+          "maximum": -1
+        },
+        "post_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "published_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "likes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "comments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reposts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "views": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "interactions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "er": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "er_exclusion_reason": {
+          "type": ["string", "null"],
+          "enum": [
+            "missing_views",
+            "zero_views",
+            "invalid_views",
+            null
+          ]
+        },
+        "is_pinned": {
+          "type": "boolean"
+        },
+        "has_copy_history": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "community_name": {
+          "type": "string"
+        },
+        "competitor_type": {
+          "enum": [
+            "Прямой",
+            "Косвенный",
+            "За внимание"
+          ]
+        },
+        "competitor_type_code": {
+          "enum": ["direct", "indirect", "attention"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,181 @@
+{
+  "schema_version": "1.1",
+  "business": {
+    "name": "[Название бизнеса]",
+    "description": "[Проверенное описание бизнеса]",
+    "marketing_niche": "[Маркетинговая ниша]",
+    "broader_categories": [
+      "[Более широкая категория]"
+    ],
+    "positioning": "[Позиционирование]",
+    "main_differentiator": "[Главное отличие]"
+  },
+  "assortment": {
+    "breadth": "[Ширина ассортимента]",
+    "variation_dimensions": [
+      "[Чем различаются предложения]"
+    ],
+    "primary_offers": [
+      {
+        "name": "[Основной продукт]",
+        "formats": [
+          "[Формат]"
+        ],
+        "priority": "primary"
+      }
+    ],
+    "secondary_offers": [
+      "[Второстепенный продукт]"
+    ],
+    "product_categories": [
+      {
+        "name": "[Основная категория]",
+        "role": "primary",
+        "examples": [
+          "[Пример]"
+        ]
+      }
+    ]
+  },
+  "production": {
+    "model": "[Собственное производство, перепродажа или смешанная модель]",
+    "creators_or_suppliers": "[Кто создаёт или поставляет продукт]",
+    "process": [
+      "[Этап процесса]"
+    ],
+    "capabilities": [
+      "[Возможность или мощность]"
+    ],
+    "lead_time": "[Срок]",
+    "notes": null
+  },
+  "audience": {
+    "primary_payers": [
+      "[Основной плательщик]"
+    ],
+    "segments": [
+      {
+        "name": "[Сегмент]",
+        "tasks": [
+          "[Задача клиента]"
+        ]
+      }
+    ]
+  },
+  "geography": {
+    "primary": "[Основная география]",
+    "additional": [],
+    "sales_format": [
+      "[Онлайн или офлайн]"
+    ]
+  },
+  "pricing": {
+    "currency": "RUB",
+    "structure": "[Логика цены]",
+    "offers": [
+      {
+        "name": "[Предложение]",
+        "amount": null,
+        "unit": "[Единица]",
+        "conditions": null,
+        "confirmed": false
+      }
+    ]
+  },
+  "sales": {
+    "booking_channels": [
+      "[Канал заказа]"
+    ],
+    "order_process": "[Порядок заказа]",
+    "prepayment_required": null,
+    "payment_timing": "[Момент оплаты]",
+    "payment_methods": [],
+    "access_or_delivery": "[Доступ, получение или доставка]"
+  },
+  "acquisition": {
+    "primary_channels": [
+      "[Основной канал]"
+    ],
+    "additional_channels": []
+  },
+  "online_presence": {
+    "vk_url": "https://vk.com/your-community",
+    "website_url": "https://example.com",
+    "other_links": []
+  },
+  "advantages": [
+    "[Подтверждённое преимущество]"
+  ],
+  "limitations": [
+    "[Ограничение]"
+  ],
+  "competitors": {
+    "known": [],
+    "classification_rules": {
+      "direct": "Продают тот же продукт той же аудитории; ассортимент может быть шире, но должен включать большинство основных позиций, а основная специализация должна совпадать.",
+      "indirect": "Продают часть ассортимента бизнеса либо похожий ассортимент.",
+      "attention": "Закрывают схожую потребность и могут получить покупку того же клиента одновременно с покупкой у бизнеса или в дополнение к ней."
+    },
+    "classification_factors": [
+      "Ассортимент",
+      "Аудитория",
+      "Потребности клиентов",
+      "География",
+      "Цены",
+      "Формат продаж",
+      "Производство или перепродажа",
+      "Онлайн- и офлайн-формат"
+    ],
+    "key_features": [
+      "[Ключевая особенность]"
+    ],
+    "matching_policy": {
+      "must_repeat_in_competitors": false,
+      "importance": "preferred",
+      "applies_to": [
+        "direct"
+      ],
+      "rationale": "[Объяснение пользователя]"
+    },
+    "search_constraints": {
+      "platforms": [
+        "VK"
+      ],
+      "target_count": 10,
+      "geography": "[География поиска]",
+      "audience_size": {
+        "min": 0,
+        "max": 100000
+      },
+      "freshness_days": 30,
+      "required_inclusions": [],
+      "exclusions": []
+    },
+    "proposed_search_queries": [
+      "[Поисковый запрос]"
+    ]
+  },
+  "remaining_gaps": [],
+  "sources": {
+    "vk": {
+      "url": "https://vk.com/your-community",
+      "retrieved_at": "2026-01-01",
+      "method": "VK API 5.199",
+      "coverage": [
+        "Профиль сообщества",
+        "Публикации"
+      ],
+      "limitations": []
+    },
+    "website": {
+      "url": "https://example.com",
+      "retrieved_at": "2026-01-01",
+      "method": "HTTP HTML extraction",
+      "coverage": [
+        "Видимый текст"
+      ],
+      "limitations": []
+    },
+    "additional": []
+  }
+}

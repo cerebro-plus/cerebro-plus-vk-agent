@@ -1,0 +1,36 @@
+# Secrets
+vk_api_token.txt
+vk_community_token.txt
+*token*.txt
+!vk_api_token.example.txt
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated workspace state
+workspace_state*.json
+workspace_check*.json
+route_plan*.json
+check.json
+chain_validation.json
+.automation-*
+
+# Generated runs and outputs
+runs/
+outputs/
+public-releases/
+
+# Python and local caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+
+# Local runtime artifacts
+node_modules/
+cache/
+media/
+*.log

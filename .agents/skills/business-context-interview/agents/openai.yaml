@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business Context Interview"
+  short_description: "Собирает и подтверждает бизнес-контекст"
+  default_prompt: "Используй $business-context-interview: безопасно сохрани VK token, изучи все ссылки с VK API, проведи основной gap-only блок до 15 вопросов и отдельный блок о конкурентах, затем покажи draft-карточку и подтверждай Markdown/JSON только после моего явного согласия."

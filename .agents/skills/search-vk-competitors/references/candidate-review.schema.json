@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "candidate-review.schema.json",
+  "title": "Primary-source VK competitor candidate reviews",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "processed_batches",
+    "candidates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "processed_batches": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "uniqueItems": true
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/candidateReview"
+      }
+    }
+  },
+  "$defs": {
+    "sourceCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "kind",
+        "official",
+        "checked_at",
+        "supports"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "kind": {
+          "enum": [
+            "official_vk",
+            "official_website",
+            "primary_other"
+          ]
+        },
+        "official": {
+          "const": true
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "supports": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "assortment",
+              "audience",
+              "geography",
+              "price",
+              "sales",
+              "production",
+              "online_offline",
+              "key_features"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "candidateReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "community_id",
+        "decision",
+        "competitor_type",
+        "geography_match",
+        "geography",
+        "site",
+        "assortment",
+        "audience",
+        "price_segment",
+        "sales_model",
+        "production",
+        "online_offline",
+        "reason",
+        "exclusion_code",
+        "classification_evidence",
+        "key_feature_check",
+        "constraint_check",
+        "source_checks",
+        "priority_score"
+      ],
+      "properties": {
+        "community_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decision": {
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "competitor_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "direct",
+            "indirect",
+            "attention",
+            null
+          ]
+        },
+        "geography_match": {
+          "type": "boolean"
+        },
+        "geography": {
+          "type": "string"
+        },
+        "site": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "assortment": {
+          "type": "string"
+        },
+        "audience": {
+          "type": "string"
+        },
+        "price_segment": {
+          "type": "string"
+        },
+        "sales_model": {
+          "type": "string"
+        },
+        "production": {
+          "type": "string"
+        },
+        "online_offline": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exclusion_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "classification_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "same_primary_product",
+            "same_audience",
+            "same_specialization",
+            "primary_offer_coverage_ratio",
+            "partial_or_similar_assortment",
+            "similar_need",
+            "substitute_or_complement"
+          ],
+          "properties": {
+            "same_primary_product": {"type": "boolean"},
+            "same_audience": {"type": "boolean"},
+            "same_specialization": {"type": "boolean"},
+            "primary_offer_coverage_ratio": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "partial_or_similar_assortment": {"type": "boolean"},
+            "similar_need": {"type": "boolean"},
+            "substitute_or_complement": {"type": "boolean"}
+          }
+        },
+        "key_feature_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "policy_applies",
+            "matches",
+            "matched",
+            "missing",
+            "rationale"
+          ],
+          "properties": {
+            "policy_applies": {"type": "boolean"},
+            "matches": {
+              "type": ["boolean", "null"]
+            },
+            "matched": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "missing": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "rationale": {"type": "string"}
+          }
+        },
+        "constraint_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "matched_required_inclusion",
+            "matched_exclusions"
+          ],
+          "properties": {
+            "matched_required_inclusion": {"type": "boolean"},
+            "matched_exclusions": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        },
+        "source_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/sourceCheck"
+          }
+        },
+        "priority_score": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
