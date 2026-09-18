@@ -6,6 +6,7 @@
 - Read `workspace_state.json`, route plans, and handoff JSON instead of loading large source files into context.
 - Never start a downstream stage when the previous stage or media gate failed.
 - Do not repeat the interview unless the user explicitly asks to update business context.
+- Before routing a business-dependent request, use `integration/agent-vk/scripts/reuse_business_context.py` to find a confirmed business card in this workspace or in the earlier `business-context-runs` lesson output. Validate both `business_context.json` and `business_card.md`; copy a valid external card into a new Agent 1 run and create its handoff. The earlier lesson output is read-only. If it is elsewhere, ask the user for the previous run location or card files. If several businesses are found, ask which one applies. Never infer that a draft is confirmed.
 - Run competitor search only after an explicit request to find, verify, or update competitors. A weekly report never authorizes a new search.
 - For a weekly report, use the latest valid `competitor_set.json`, then route `$analyze-vk-best-posts` followed by `$vk-content-report`; default to the latest 168 hours.
 - Require explicit consent before degraded media processing.
