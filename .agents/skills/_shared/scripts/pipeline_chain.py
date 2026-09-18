@@ -373,6 +373,13 @@ def emit_report(
         item, hit = artifact(path, output, cache, role)
         artifacts.append(item)
         cache_hits += int(hit)
+    if args.html.suffix.lower() != ".html":
+        raise ChainError("final report must be an HTML file")
+    expected_html_sha = ensure_sha(
+        (primary.get("output_hashes") or {}).get("html"), "report HTML"
+    )
+    if artifacts[-1]["sha256"] != expected_html_sha:
+        raise ChainError("report HTML hash mismatch")
     source_hashes = primary.get("source_hashes") or {}
     parent = {
         role: ensure_sha(source_hashes.get(role), f"report.source_hashes.{role}")
@@ -467,6 +474,12 @@ def validate_handoff(path: Path, cache: Path | None = None) -> dict[str, Any]:
     artifacts = value.get("artifacts")
     if not isinstance(artifacts, list) or not artifacts:
         raise ChainError(f"handoff has no artifacts: {path.name}")
+    if value.get("stage") == "market-reaction" and not any(
+        item.get("role") == "html" and str(item.get("file") or "").lower().endswith(".html")
+        for item in artifacts
+        if isinstance(item, dict)
+    ):
+        raise ChainError("final report HTML is missing from handoff")
     for item in artifacts:
         file_value = str(item.get("file") or "")
         if not file_value or Path(file_value).is_absolute():

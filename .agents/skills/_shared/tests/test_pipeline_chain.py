@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import tempfile
 import unittest
@@ -99,6 +100,7 @@ class ChainTests(unittest.TestCase):
         self.signals = write(self.root / "comment-signals.json", {"status": "confirmed"})
         self.findings = write(self.root / "report_findings.json", {"status": "confirmed"})
         self.html = write(self.root / "report.html", "<html><body>ok</body></html>")
+        html_sha = hashlib.sha256(self.html.read_bytes()).hexdigest()
         self.report_validation = write(
             self.root / "validation_report.json",
             {
@@ -109,6 +111,7 @@ class ChainTests(unittest.TestCase):
                     "comments": comments_sha,
                     "xlsx": xlsx_sha,
                 },
+                "output_hashes": {"html": html_sha},
                 "counts": {
                     "posts": 1,
                     "sections": 6,
@@ -222,6 +225,19 @@ class ChainTests(unittest.TestCase):
                     cache=self.cache,
                     allow_draft_report=False,
                 )
+            )
+
+    def test_report_handoff_rejects_html_that_differs_from_validation(self):
+        write(self.html, "<html><body>changed</body></html>")
+        with self.assertRaisesRegex(chain.ChainError, "HTML hash mismatch"):
+            self.emit(
+                "market-reaction",
+                self.report_validation,
+                self.root / "report_handoff.json",
+                analysis_input=self.analysis,
+                comment_signals=self.signals,
+                findings=self.findings,
+                html=self.html,
             )
 
     def test_secret_is_rejected(self):

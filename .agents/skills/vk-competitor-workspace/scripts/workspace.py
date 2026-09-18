@@ -283,11 +283,22 @@ def report_record(
         for role in ("dataset", "comments", "xlsx")
     ):
         raise WorkspaceError("report belongs to another best-post dataset")
+    html_path = path.parent / "vk_content_report.html"
+    if not html_path.is_file():
+        raise WorkspaceError("report HTML is missing")
+    expected_html_sha = ensure_sha(
+        (value.get("output_hashes") or {}).get("html"), "report HTML"
+    )
+    html_sha, _ = hash_file(html_path, cache)
+    if html_sha != expected_html_sha:
+        raise WorkspaceError("report HTML hash mismatch")
     return {
         "valid": True,
         "status": status,
         "confirmed": status == "confirmed",
         "path": rel(path, root),
+        "html_path": rel(html_path, root),
+        "html_sha256": html_sha,
         "sha256": hash_file(path, cache)[0],
         "source_hashes": {
             role: sources[role] for role in ("dataset", "comments", "xlsx")

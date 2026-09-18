@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import tempfile
 import unittest
@@ -259,6 +260,41 @@ class RoutingTests(unittest.TestCase):
                 "1.1",
                 result["business_context"]["schema_version"],
             )
+
+    def test_report_requires_verified_html_for_reuse(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            outputs = root / "runs" / "report" / "outputs"
+            outputs.mkdir(parents=True)
+            html = outputs / "vk_content_report.html"
+            html.write_text("<!doctype html><html><body>Report</body></html>", encoding="utf-8")
+            html_sha = hashlib.sha256(html.read_bytes()).hexdigest()
+            validation = outputs / "validation_report.json"
+            validation.write_text(json.dumps({
+                "passed": True,
+                "status": "confirmed",
+                "source_hashes": {
+                    "dataset": SHA_DATASET,
+                    "comments": SHA_COMMENTS,
+                    "xlsx": SHA_XLSX,
+                },
+                "output_hashes": {"html": html_sha},
+            }), encoding="utf-8")
+            valid = workspace.inspect_workspace(root)
+            self.assertEqual(
+                "runs/report/outputs/vk_content_report.html",
+                valid["market_report"]["html_path"],
+            )
+
+            html.unlink()
+            missing = workspace.inspect_workspace(root)
+            self.assertIsNone(missing["market_report"])
+            self.assertIn("HTML", missing["invalid_candidates"]["market_report"][0]["reason"])
+
+            html.write_text("<html>Changed</html>", encoding="utf-8")
+            altered = workspace.inspect_workspace(root)
+            self.assertIsNone(altered["market_report"])
+            self.assertIn("HTML", altered["invalid_candidates"]["market_report"][0]["reason"])
 
 
 if __name__ == "__main__":
